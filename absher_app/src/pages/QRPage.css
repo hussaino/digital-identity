@@ -1,3 +1,7 @@
 ion-content ion-toolbar {
   --background: translucent;
 }
+
+.bg{
+  --ion-background-color:#4c4648;
+}

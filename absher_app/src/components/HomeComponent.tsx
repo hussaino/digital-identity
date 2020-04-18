@@ -1,5 +1,6 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom'
+import './HomeComponent.css';
 
 const Component: React.FC = () => {
 
@@ -12,8 +13,8 @@ const Component: React.FC = () => {
 
   
   return (
-    <div className="container">
-      <img src="assets/absher-home.jpeg" onClick={e => openQRPage(e)}></img>
+    <div className="home-container">
+      <img src="assets/image/absher-home.jpeg" height="800" onClick={e => openQRPage(e)}></img>
     </div>
   );
 };
