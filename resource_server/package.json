@@ -1,0 +1,32 @@
+{
+	"name": "serverless-juleb",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "sls offline start --port 5000 -s local"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://git-codecommit.ap-south-1.amazonaws.com/v1/repos/serverless_juleb.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"homepage": "https://git-codecommit.ap-south-1.amazonaws.com/v1/repos/serverless_juleb#readme",
+	"devDependencies": {
+		"@types/mongodb": "^3.3.15",
+		"aws-amplify-serverless-plugin": "^1.4.1",
+		"aws-sdk": "^2.609.0",
+		"serverless-offline": "^5.12.1",
+		"serverless-plugin-log-retention": "^2.0.0",
+		"serverless-plugin-typescript": "^1.1.7",
+		"typescript": "^3.5.2"
+	},
+	"dependencies": {
+		"@types/node": "^13.7.0",
+		"amazon-qldb-driver-nodejs": "^1.0.0-rc.1",
+		"apollo-server-lambda": "^2.9.16",
+		"ion-js": "^4.0.0",
+		"jsbi": "^3.1.2"
+	}
+}

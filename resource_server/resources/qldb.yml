@@ -1,0 +1,6 @@
+Resources:
+  AbsherLedger:
+    Type: AWS::QLDB::Ledger
+    Properties: 
+      Name: AbsherLedger
+      PermissionsMode: ALLOW_ALL

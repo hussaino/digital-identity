@@ -1,0 +1,39 @@
+service: delivery
+
+package:
+  exclude:
+    - node_modules/**
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - aws-amplify-serverless-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-central-1
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  versionFunctions: false
+  logRetentionInDays: 14
+  cfnRole: arn:aws:iam::567856465214:role/serverlessFramworkCfn
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+      - qldb:*	
+      Resource: 
+      - '*'
+
+functions:
+  - ${file(resources/lambda.yml)}
+
+resources:
+  - ${file(resources/qldb.yml)}
+
+custom:
+  amplify:
+    - filename: src/aws-exports.ts
+      type: typescript
+      # appClient: CognitoUserPoolClient
+    

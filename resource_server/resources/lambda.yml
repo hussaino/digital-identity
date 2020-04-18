@@ -1,0 +1,36 @@
+# graphql:
+#   handler: src/graphql/index.handler
+#   vpc:
+#     securityGroupIds:
+#       - sg-1d1b1674
+#     subnetIds:
+#       - subnet-07c4b16e
+#   events:
+#     - http:
+#         path: chronic
+#         method: get
+#         cors: true
+          # authorizer: 
+          #   type: COGNITO_USER_POOLS
+          #   authorizerId:
+          #     Ref: ApiGatewayAuthorizer
+
+customerAdd:
+  handler: src/customer.create
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: customers
+        method: post
+        cors: true
+
+customerGet:
+  handler: src/customer.get
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: customers/{id}
+        method: get
+        cors: true
