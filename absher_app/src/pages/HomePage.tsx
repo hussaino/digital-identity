@@ -11,7 +11,7 @@ const Home: React.FC = () => {
       <IonContent>
         <IonToolbar mode="ios" class="bg-toolbar">
           <IonTitle class="top-padding">
-            <img alt="logo" height="48" float-left src="assets/image/toolbar-buttons.png"/>
+            <img alt="logo" height="48" float-left src="assets/image/toolbar-buttons.png" />
           </IonTitle>
         </IonToolbar>
         <HomeComponent />
