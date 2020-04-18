@@ -1,0 +1,29 @@
+.permission-container {
+  text-align: center;
+  position: relative;
+  top: 25%;
+}
+
+.card-bg {
+  background-color:#ffffff;
+}
+
+.permission-container ion-item {
+  --background: #ffffff;
+  text-align: right;
+  direction: rtl;
+}
+
+.permission-container ion-card-title {
+  text-align: right;
+  direction: rtl;
+}
+
+.card-buttons {
+  display: flex;
+  padding: 30px 60px 0 60px;
+}
+
+.card-buttons ion-button{
+  margin: auto;
+}

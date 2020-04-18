@@ -230,3 +230,13 @@ http://ionicframework.com/docs/theming/ */
     --color: white;
   }
 }
+
+
+/*
+  * Custom Theme
+  * -------------------------------------------
+  */
+
+.bg{
+  --ion-background-color:#4c4648;
+}
