@@ -8,12 +8,13 @@ export const errorResponse = (event, errorCode: number, msg: string) => {
 	};
 };
 
-export const successResponse = (event, body: object) => {
+export const successResponse = (event, data: object) => {
+	const body = JSON.stringify(data);
 	return {
 		statusCode: 200,
 		headers: {
 			'access-control-allow-origin': event.headers.origin,
 		},
-		body: JSON.stringify(body),
+		body: body ? body : JSON.stringify({ msg: 'No Data' }),
 	};
 };

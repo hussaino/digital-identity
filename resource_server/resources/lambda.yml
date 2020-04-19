@@ -34,3 +34,23 @@ customerGet:
         path: customers/{id}
         method: get
         cors: true
+
+customerUpdate:
+  handler: src/customer.update
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: customers
+        method: put
+        cors: true
+
+customerDelete:
+  handler: src/customer.remove
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: customers/{id}
+        method: delete
+        cors: true
