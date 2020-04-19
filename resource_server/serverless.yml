@@ -24,6 +24,15 @@ provider:
       - qldb:*	
       Resource: 
       - '*'
+  environment:
+    WS_URL:
+      Fn::Join:
+        - ''
+        - - Ref: WebsocketsApi
+          - .execute-api.
+          - Ref: AWS::Region
+          - .amazonaws.com/
+          - ${self:provider.stage}
 
 functions:
   - ${file(resources/lambda.yml)}

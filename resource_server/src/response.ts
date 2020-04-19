@@ -8,7 +8,7 @@ export const errorResponse = (event, errorCode: number, msg: string) => {
 	};
 };
 
-export const successResponse = (event, data: object) => {
+export const successResponse = (event, data: object | undefined) => {
 	const body = JSON.stringify(data);
 	return {
 		statusCode: 200,

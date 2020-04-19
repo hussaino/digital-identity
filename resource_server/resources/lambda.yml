@@ -54,3 +54,24 @@ customerDelete:
         path: customers/{id}
         method: delete
         cors: true
+
+send:
+  handler: src/customer.send
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: send/{id}/{mgs}
+        method: get
+        cors: true
+
+
+customerWebsocket:
+  handler: src/customer.connection
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - websocket:
+        route: $connect
+    - websocket:
+        route: $disconnect
