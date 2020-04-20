@@ -24,7 +24,7 @@ const Component: React.FC = () => {
         duration={3000}
       />
       <div className="home-container">
-        <img src="assets/image/absher-home.jpeg" height="800" onClick={e => setShowLoading(true)}></img>
+        <img src="assets/image/absher-home.jpeg" alt="absher-home" height="800" onClick={e => setShowLoading(true)}></img>
       </div>
     </IonContent>
   );

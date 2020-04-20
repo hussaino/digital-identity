@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { IonCard, IonCardHeader, IonCardTitle, IonItem, IonLabel, IonButton } from '@ionic/react';
+import React from 'react';
+import { IonCard, IonCardHeader, IonCardTitle, IonItem, IonLabel } from '@ionic/react';
 import './CustomerDetailsComponent.css';
 
 
