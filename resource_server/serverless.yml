@@ -18,6 +18,7 @@ provider:
   versionFunctions: false
   logRetentionInDays: 14
   cfnRole: arn:aws:iam::567856465214:role/serverlessFramworkCfn
+  websocketsApiRouteSelectionExpression: $request.body.action
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -39,6 +40,7 @@ functions:
 
 resources:
   - ${file(resources/qldb.yml)}
+  - ${file(resources/apig.yml)}
 
 custom:
   amplify:

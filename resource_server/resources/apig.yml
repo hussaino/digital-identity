@@ -1,0 +1,12 @@
+Resources:
+  ApiGatewayAuthorizer:
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+      AuthorizerResultTtlInSeconds: 300
+      IdentitySource: method.request.header.Authorization
+      Name: Cognito
+      RestApiId:
+        Ref: ApiGatewayRestApi
+      Type: COGNITO_USER_POOLS
+      ProviderARNs:
+        - arn:aws:cognito-idp:eu-central-1:567856465214:userpool/eu-central-1_7X7WaU9wd

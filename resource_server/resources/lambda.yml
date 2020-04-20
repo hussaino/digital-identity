@@ -61,7 +61,7 @@ send:
     - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
   events:
     - http:
-        path: send/{id}/{mgs}
+        path: send/{id}/{msg}
         method: get
         cors: true
 
@@ -75,3 +75,22 @@ customerWebsocket:
         route: $connect
     - websocket:
         route: $disconnect
+    - websocket:
+        route: $default
+    # - websocket:
+    #     route: connectionId # will trigger if $request.body.action === "foo"
+
+
+customerAuth:
+  handler: src/customer.auth
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: auth
+        method: get
+        cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer 

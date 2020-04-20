@@ -46,8 +46,20 @@ export const remove: APIGatewayProxyHandler = async (event) => {
 };
 
 export const connection: APIGatewayProxyHandler = async (event) => {
-	console.log({ connectionId: event.requestContext.connectionId });
-	return successResponse(event, undefined);
+	console.log(event.requestContext);
+	const { connectionId } = event.requestContext;
+	if (event.requestContext.routeKey === 'connectionId') {
+		console.log({ status: 'sending connectionId' });
+		const res = await sendWSMessage(
+			process.env.WS_URL || 'sgyb5djk3h.execute-api.eu-central-1.amazonaws.com/dev',
+			connectionId,
+			{ connectionId },
+		);
+	}
+	return {
+		statusCode: 200,
+		body: `connectionId: ${connectionId}`,
+	};
 };
 
 export const send: APIGatewayProxyHandler = async (event) => {
@@ -56,7 +68,7 @@ export const send: APIGatewayProxyHandler = async (event) => {
 	const res = await sendWSMessage(
 		process.env.WS_URL || 'sgyb5djk3h.execute-api.eu-central-1.amazonaws.com/dev',
 		data!.id,
-		data!.mgs,
+		data!.msg,
 	);
 	return successResponse(event, res);
 };
@@ -73,4 +85,9 @@ export const sendWSMessage = async (url, connectionId, payload) => {
 		})
 		.promise();
 	return res;
+};
+
+export const auth: APIGatewayProxyHandler = async (event) => {
+	const user = event.requestContext.authorizer!.claims;
+	return successResponse(event, user);
 };
