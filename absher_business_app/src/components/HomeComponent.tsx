@@ -6,15 +6,14 @@ const Component: React.FC = () => {
 
   const history = useHistory();
 
-  const openQRPage = (e: any) => {
+  const openCustomerDetails = (e: any) => {
     e.preventDefault();
-    history.push('/home/qr');
+    history.push('/home/customer');
   }
-
 
   return (
     <div className="home-container">
-      <img src="assets/image/absher-home.jpeg" height="800" onClick={e => openQRPage(e)}></img>
+      <img src="assets/image/absher-home.jpeg" height="800" onClick={e => openCustomerDetails(e)}></img>
     </div>
   );
 };

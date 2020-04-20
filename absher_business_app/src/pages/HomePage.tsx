@@ -9,11 +9,6 @@ const Home: React.FC = () => {
     <IonPage>
       <HeaderComponent />
       <IonContent>
-        <IonToolbar mode="ios" class="toolbar-bg">
-          <IonTitle class="top-padding">
-            <img alt="logo" height="48" float-left src="assets/image/toolbar-buttons.png" />
-          </IonTitle>
-        </IonToolbar>
         <HomeComponent />
       </IonContent>
     </IonPage>

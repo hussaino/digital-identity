@@ -1,0 +1,21 @@
+.customer-details-container {
+  text-align: center;
+  position: relative;
+  top: 10%;
+}
+
+.card-bg {
+  background-color:#ffffff;
+  padding-bottom: 80px;
+}
+
+.customer-details-container ion-item {
+  --background: #ffffff;
+  text-align: right;
+  direction: rtl;
+}
+
+.customer-details-container ion-card-title {
+  text-align: right;
+  direction: rtl;
+}
