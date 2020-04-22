@@ -57,11 +57,11 @@ export const requestAuthorization: APIGatewayProxyHandler = async (event) => {
 		return errorResponse(event, 400, { msg: 'Malformed Request' });
 	}
 	const data: CustomerAuthorizationResponse = JSON.parse(event.body);
-	const error = [ 'business', 'customer', 'businessWS', 'accessList', 'status' ].filter((key) => !data[key]);
+	const error = [ 'business', 'customer', 'businessWS', 'status' ].filter((key) => !data[key]);
 	if (error.length) {
 		return errorResponse(event, 400, { msg: 'Missing keys in body', params: error });
 	}
-	const { business, customer, accessList, status, businessWS } = data;
+	const { business, customer, status, businessWS } = data;
 
 	let res = await updateDocuments(
 		'ACCESS_LIST',
@@ -78,12 +78,23 @@ export const requestAuthorization: APIGatewayProxyHandler = async (event) => {
 		});
 		return successResponse(event, res);
 	}
-	const customerInfo = await getById<Customer>('CUSTOMER', customer);
+	const customerInfo = await getById<Customer>('CUSTOMERS', customer);
+	console.log(JSON.stringify(customerInfo, null, 2));
+	const accessList = (await find<AccessList>('ACCESS_LIST', { business: data.business, customer: data.customer }))[0]
+		.accessList;
 	Object.keys(customerInfo).forEach((key) => {
 		if (!accessList.includes(key)) {
 			delete customerInfo[key];
 		}
 	});
+	await updateDocuments(
+		'ACCESS_LIST',
+		{
+			business,
+			customer,
+		},
+		{ status, customerInfo },
+	);
 	try {
 		await sendWSMessage(businessWS, {
 			action: 'authorizationResponse',
@@ -94,4 +105,16 @@ export const requestAuthorization: APIGatewayProxyHandler = async (event) => {
 		return errorResponse(event, 500, error);
 	}
 	return successResponse(event, res);
+};
+
+export const history: APIGatewayProxyHandler = async (event) => {
+	const id = event.pathParameters!.id;
+	const data = await find<AccessList>('ACCESS_LIST', { customer: id, status: 'approved' });
+	const info = data.map((request) => {
+		return {
+			business: request.business,
+			info: request.customerInfo,
+		};
+	});
+	return successResponse(event, info);
 };

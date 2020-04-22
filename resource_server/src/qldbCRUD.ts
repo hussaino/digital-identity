@@ -27,12 +27,13 @@ export async function updateDocuments(tableName: string, params: object, documen
 	const params_keys = Object.keys(params);
 	const params_values = Object.values(params);
 	const document_keys = Object.keys(document);
-	const document_values = Object.values(document);
+	const document_values = document_keys.map((key) => document[key]);
 	const stringified_params = params_keys.map((key) => `t.${key} = ?`).join(' and ');
-	const stringified_document = params_keys.map((key) => `t.${key} = ?`).join(' , ');
+	const stringified_document = document_keys.map((key) => `t.${key} = ?`).join(' , ');
 	const statement: string = `UPDATE ${tableName} as t SET ${stringified_document} where ${stringified_params}`;
 	console.log(statement);
-	const result = await executeStatement(statement, ...document_values, params_values);
+	console.log(document_values);
+	const result = await executeStatement(statement, ...document_values, ...params_values);
 	return result[0];
 }
 

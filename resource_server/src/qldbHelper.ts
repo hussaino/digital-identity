@@ -31,5 +31,5 @@ export async function executeStatement(statement: string, ...args): Promise<any>
 	let result: Result = await session.executeLambda(async (txn) => {
 		return await txn.execute(statement, ...args);
 	});
-	return result.getResultList();
+	return JSON.parse(JSON.stringify(result.getResultList()));
 }

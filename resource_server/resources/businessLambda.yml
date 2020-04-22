@@ -47,3 +47,13 @@ businessRequestAuthorization:
         path: requests
         method: post
         cors: true
+
+businessRequestHistory:
+  handler: src/business.history
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: businesses/{id}/requests
+        method: get
+        cors: true

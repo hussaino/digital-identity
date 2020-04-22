@@ -94,3 +94,12 @@ export const requestAuthorization: APIGatewayProxyHandler = async (event) => {
 	}
 	return successResponse(event, res);
 };
+
+export const history: APIGatewayProxyHandler = async (event) => {
+	const id = event.pathParameters!.id;
+	const data = await find<AccessList>('ACCESS_LIST', { business: id, status: 'approved' });
+	const info = data.map((request) => {
+		return request.customerInfo;
+	});
+	return successResponse(event, info);
+};

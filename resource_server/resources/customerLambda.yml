@@ -48,6 +48,16 @@ customerRequestAuthorization:
         method: put
         cors: true
 
+customerRequestHistory:
+  handler: src/customer.history
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: customers/{id}/requests
+        method: get
+        cors: true
+
 customerAuth:
   handler: src/customer.auth
   layers:
