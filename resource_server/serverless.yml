@@ -36,7 +36,9 @@ provider:
           - ${self:provider.stage}
 
 functions:
-  - ${file(resources/lambda.yml)}
+  - ${file(resources/customerLambda.yml)}
+  - ${file(resources/businessLambda.yml)}
+  - ${file(resources/websockets.yml)}
 
 resources:
   - ${file(resources/qldb.yml)}

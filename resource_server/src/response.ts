@@ -1,10 +1,10 @@
-export const errorResponse = (event, errorCode: number, msg: string) => {
+export const errorResponse = (event, errorCode: number, data: object) => {
 	return {
 		statusCode: errorCode,
 		headers: {
 			'access-control-allow-origin': event.headers.origin,
 		},
-		body: JSON.stringify({ msg }),
+		body: JSON.stringify(data),
 	};
 };
 

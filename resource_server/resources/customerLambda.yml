@@ -1,20 +1,3 @@
-# graphql:
-#   handler: src/graphql/index.handler
-#   vpc:
-#     securityGroupIds:
-#       - sg-1d1b1674
-#     subnetIds:
-#       - subnet-07c4b16e
-#   events:
-#     - http:
-#         path: chronic
-#         method: get
-#         cors: true
-          # authorizer: 
-          #   type: COGNITO_USER_POOLS
-          #   authorizerId:
-          #     Ref: ApiGatewayAuthorizer
-
 customerAdd:
   handler: src/customer.create
   layers:
@@ -55,31 +38,15 @@ customerDelete:
         method: delete
         cors: true
 
-send:
-  handler: src/customer.send
+customerRequestAuthorization:
+  handler: src/customer.requestAuthorization
   layers:
     - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
   events:
     - http:
-        path: send/{id}/{msg}
-        method: get
+        path: requests
+        method: put
         cors: true
-
-
-customerWebsocket:
-  handler: src/customer.connection
-  layers:
-    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
-  events:
-    - websocket:
-        route: $connect
-    - websocket:
-        route: $disconnect
-    - websocket:
-        route: $default
-    # - websocket:
-    #     route: connectionId # will trigger if $request.body.action === "foo"
-
 
 customerAuth:
   handler: src/customer.auth

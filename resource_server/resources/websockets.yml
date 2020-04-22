@@ -1,0 +1,29 @@
+send:
+  handler: src/websocket.send
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: send/{id}/{msg}
+        method: get
+        cors: true
+
+websocketHandler:
+  handler: src/websocket.handler
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - websocket:
+        route: $connect
+    - websocket:
+        route: $disconnect
+    - websocket:
+        route: $default
+
+websocketConnectionId:
+  handler: src/websocket.connectionId
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - websocket:
+        route: connectionId

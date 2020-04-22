@@ -1,0 +1,49 @@
+businessAdd:
+  handler: src/business.create
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: businesses
+        method: post
+        cors: true
+
+businessGet:
+  handler: src/business.get
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: businesses/{id}
+        method: get
+        cors: true
+
+businessUpdate:
+  handler: src/business.update
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: businesses
+        method: put
+        cors: true
+
+businessDelete:
+  handler: src/business.remove
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: businesses/{id}
+        method: delete
+        cors: true
+
+businessRequestAuthorization:
+  handler: src/business.requestAuthorization
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: requests
+        method: post
+        cors: true
