@@ -14,7 +14,7 @@ const Component: React.FC = () => {
 
   return (
     <div className="home-container">
-      <img src="assets/image/absher-home.jpeg" height="800" onClick={e => openQRPage(e)}></img>
+      <img src="assets/image/absher-home.jpeg" alt="absher-home" height="800" onClick={e => openQRPage(e)}></img>
     </div>
   );
 };

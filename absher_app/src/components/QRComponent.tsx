@@ -5,7 +5,7 @@ import './QRComponent.css';
 
 
 const QRComponent: React.FC = () => {
-  const [url, setURL] = useState("http://facebook.github.io/react/");
+  const [url] = useState("http://facebook.github.io/react/");
 
   const history = useHistory();
 
