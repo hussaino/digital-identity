@@ -17,8 +17,16 @@ const QRComponent: React.FC = () => {
   }, []);
 
   const handleWebSocketResponse = (response: any) => {
-    setQrContent(response.qr);
-    setIsLoading(false);
+    // QR content response 
+    if (response.hasOwnProperty('qr')) {
+      setQrContent(response.qr);
+      setIsLoading(false);
+    }
+    // authorizationRequest response
+    else if (response.hasOwnProperty('requestedInfo')) {
+      goToPermissionPage(response)
+    }
+
   }
 
   const showLoading = () => {
@@ -34,7 +42,7 @@ const QRComponent: React.FC = () => {
 
   const showQR = () => {
     return (
-      <div className="qr-container" onClick={e => goToPermissionPage(e)}>
+      <div className="qr-container">
         <QRCode
           value={qrContent}
           size={300}
@@ -47,9 +55,8 @@ const QRComponent: React.FC = () => {
     )
   }
 
-  const goToPermissionPage = (e: any) => {
-    e.preventDefault();
-    history.push('/home/permission');
+  const goToPermissionPage = (busniessData: any) => {
+    history.push('/home/permission', { busniessData: busniessData });
   }
 
   return (
