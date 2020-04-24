@@ -11,7 +11,7 @@ export const establishWebSocket = (callback: any) => {
         callback(JSON.parse(event.data))
     }
     wss.onerror = (error) => console.log({ error });
-    wss.onopen = () => wss.send(JSON.stringify({ action: 'connectionId' }));
+    wss.onopen = () => wss.send(JSON.stringify({ action: 'requestQR', id: '123' }));
 }
 
 

@@ -17,14 +17,8 @@ const QRComponent: React.FC = () => {
   }, []);
 
   const handleWebSocketResponse = (response: any) => {
-    // Add customer id to the response
-    response.customer = 123;
-
-    // Convert response to string and generate QR code
-    var myInformation = JSON.stringify(response);
-    setQrContent(myInformation);
-
-    setIsLoading(false)
+    setQrContent(response.qr);
+    setIsLoading(false);
   }
 
   const showLoading = () => {
