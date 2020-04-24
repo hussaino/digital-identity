@@ -1,12 +1,11 @@
 export interface Business {
-	id: number;
+	id: string;
 	name: string;
 	accessList: string;
 }
 
 export interface BusinessAuthorizationRequest {
-	business: number;
-	customer: number;
+	businessId: string;
 	businessWS: string;
-	customerWS: string;
+	customerQR: string;
 }

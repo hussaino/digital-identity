@@ -6,9 +6,13 @@ export interface Customer {
 }
 
 export interface CustomerAuthorizationResponse {
-	business: number;
-	customer: number;
+	businessData: string;
+	customerId: number;
 	accessList: string[];
 	status: 'requested' | 'approved' | 'rejected';
-	businessWS: string;
+}
+
+export interface CustomerEncryptedData {
+	id: string;
+	connectionId: string;
 }

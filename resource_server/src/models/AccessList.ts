@@ -1,8 +1,8 @@
 import { Customer } from './Customer';
 
 export interface AccessList {
-	customer: number;
-	business: number;
+	customerId: number;
+	businessId: number;
 	accessList: string[];
 	customerInfo?: Customer;
 	status: 'requested' | 'approved' | 'rejected';

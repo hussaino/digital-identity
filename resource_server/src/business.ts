@@ -6,7 +6,8 @@ import { errorResponse, successResponse } from './response';
 import { ApiGatewayManagementApi } from 'aws-sdk';
 import { Business, BusinessAuthorizationRequest } from './models/Business';
 import { AccessList } from './models/AccessList';
-import { sendWSMessage } from './websocket';
+import { sendWSMessage, decrypt, encrypt } from './websocket';
+import { CustomerEncryptedData } from './models/Customer';
 
 export const create: APIGatewayProxyHandler = async (event) => {
 	if (!event.body) {
@@ -56,18 +57,22 @@ export const requestAuthorization: APIGatewayProxyHandler = async (event) => {
 		return errorResponse(event, 400, { msg: 'Malformed Request' });
 	}
 	const data: BusinessAuthorizationRequest = JSON.parse(event.body);
-	const error = [ 'business', 'customer', 'customerWS', 'businessWS' ].filter((key) => !data[key]);
+	const error = [ 'businessId', 'businessWS', 'customerQR' ].filter((key) => !data[key]);
 	if (error.length) {
 		return errorResponse(event, 400, { msg: 'Missing keys in body', params: error });
 	}
-	const old = await find<AccessList>('ACCESS_LIST', { business: data.business, customer: data.customer });
-	const business = await getById<Business>('BUSINESSES', data.business);
+	const customerEncrypted = decrypt(data.customerQR)!;
+	const old = await find<AccessList>('ACCESS_LIST', {
+		businessId: data.businessId,
+		customerId: customerEncrypted.id,
+	});
+	const business = await getById<Business>('BUSINESSES', data.businessId);
 	let res;
-	const { customerWS, businessWS } = data;
+	const { businessWS } = data;
 	if (old.length == 0) {
 		res = await insertDocument('ACCESS_LIST', {
-			business: data.business,
-			customer: data.customer,
+			businessId: data.businessId,
+			customerId: customerEncrypted.id,
 			accessList: business.accessList,
 			status: 'requested',
 		});
@@ -75,19 +80,20 @@ export const requestAuthorization: APIGatewayProxyHandler = async (event) => {
 		res = await updateDocuments(
 			'ACCESS_LIST',
 			{
-				business: data.business,
-				customer: data.customer,
+				business: data.businessId,
+				customer: customerEncrypted.id,
 			},
 			{ accessList: business.accessList, status: 'requested' },
 		);
 	}
 
 	try {
-		await sendWSMessage(customerWS, {
+		const encrypted = encrypt({ id: data.businessId, connectionId: businessWS });
+		await sendWSMessage(customerEncrypted.connectionId, {
 			action: 'authorizationRequest',
 			companyName: business.name,
 			requestedInfo: business.accessList,
-			businessWS,
+			businessData: encrypted,
 		});
 	} catch (error) {
 		return errorResponse(event, 500, error);

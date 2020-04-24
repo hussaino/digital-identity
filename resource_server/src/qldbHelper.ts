@@ -18,10 +18,12 @@ export function createQldbDriver(
 }
 
 export async function createQldbSession(): Promise<QldbSession> {
-	if (!qldbSession) {
-		const pooledQldbDriver: QldbDriver = createQldbDriver();
-		qldbSession = await pooledQldbDriver.getSession();
-	}
+	// if (!qldbSession) {
+	// 	const pooledQldbDriver: QldbDriver = createQldbDriver();
+	// 	qldbSession = await pooledQldbDriver.getSession();
+	// }
+	const pooledQldbDriver: QldbDriver = createQldbDriver();
+	qldbSession = await pooledQldbDriver.getSession();
 	// const qldbSession: QldbSession = await pooledQldbDriver.getSession();
 	return qldbSession;
 }
@@ -31,5 +33,7 @@ export async function executeStatement(statement: string, ...args): Promise<any>
 	let result: Result = await session.executeLambda(async (txn) => {
 		return await txn.execute(statement, ...args);
 	});
-	return JSON.parse(JSON.stringify(result.getResultList()));
+	const data = JSON.parse(JSON.stringify(result.getResultList()));
+	session.close();
+	return data;
 }

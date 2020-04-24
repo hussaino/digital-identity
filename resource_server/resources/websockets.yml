@@ -27,3 +27,11 @@ websocketConnectionId:
   events:
     - websocket:
         route: connectionId
+
+websocketRequestQR:
+  handler: src/websocket.requestQR
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - websocket:
+        route: requestQR

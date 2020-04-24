@@ -7,7 +7,7 @@ import { ApiGatewayManagementApi } from 'aws-sdk';
 import { Customer, CustomerAuthorizationResponse } from './models/Customer';
 import { AccessList } from './models/AccessList';
 import { Business } from './models/Business';
-import { sendWSMessage } from './websocket';
+import { sendWSMessage, decrypt } from './websocket';
 
 export const create: APIGatewayProxyHandler = async (event) => {
 	if (!event.body) {
@@ -57,31 +57,34 @@ export const requestAuthorization: APIGatewayProxyHandler = async (event) => {
 		return errorResponse(event, 400, { msg: 'Malformed Request' });
 	}
 	const data: CustomerAuthorizationResponse = JSON.parse(event.body);
-	const error = [ 'business', 'customer', 'businessWS', 'status' ].filter((key) => !data[key]);
+	const error = [ 'customerId', 'businessData', 'status' ].filter((key) => !data[key]);
 	if (error.length) {
 		return errorResponse(event, 400, { msg: 'Missing keys in body', params: error });
 	}
-	const { business, customer, status, businessWS } = data;
+	const businessEncrytped = decrypt(data.businessData);
+	const { customerId, status } = data;
 
 	let res = await updateDocuments(
 		'ACCESS_LIST',
 		{
-			business,
-			customer,
+			businessId: businessEncrytped.id,
+			customerId,
 		},
 		{ status },
 	);
 	if (status === 'rejected') {
-		await sendWSMessage(businessWS, {
+		await sendWSMessage(businessEncrytped.connectionId, {
 			action: 'authorizationResponse',
 			status,
 		});
 		return successResponse(event, res);
 	}
-	const customerInfo = await getById<Customer>('CUSTOMERS', customer);
+	const customerInfo = await getById<Customer>('CUSTOMERS', customerId);
 	console.log(JSON.stringify(customerInfo, null, 2));
-	const accessList = (await find<AccessList>('ACCESS_LIST', { business: data.business, customer: data.customer }))[0]
-		.accessList;
+	const accessList = (await find<AccessList>('ACCESS_LIST', {
+		businessId: businessEncrytped.id,
+		customerId: data.customerId,
+	}))[0].accessList;
 	Object.keys(customerInfo).forEach((key) => {
 		if (!accessList.includes(key)) {
 			delete customerInfo[key];
@@ -90,13 +93,13 @@ export const requestAuthorization: APIGatewayProxyHandler = async (event) => {
 	await updateDocuments(
 		'ACCESS_LIST',
 		{
-			business,
-			customer,
+			businessId: businessEncrytped.id,
+			customerId,
 		},
 		{ status, customerInfo },
 	);
 	try {
-		await sendWSMessage(businessWS, {
+		await sendWSMessage(businessEncrytped.connectionId, {
 			action: 'authorizationResponse',
 			status,
 			customerInfo,
@@ -112,7 +115,7 @@ export const history: APIGatewayProxyHandler = async (event) => {
 	const data = await find<AccessList>('ACCESS_LIST', { customer: id, status: 'approved' });
 	const info = data.map((request) => {
 		return {
-			business: request.business,
+			business: request.businessId,
 			info: request.customerInfo,
 		};
 	});
