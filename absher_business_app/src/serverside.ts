@@ -4,11 +4,11 @@ Amplify.configure(awsmobile);
 
 
 // ------------------- WebSocket -------------------
-export const establishWebSocket = (callback: any) => {
+export const establishWebSocket = (qrCodeContent: String, callback: any) => {
     var wss = new WebSocket('wss://sgyb5djk3h.execute-api.eu-central-1.amazonaws.com/dev');
     wss.onmessage = (event) => {
         console.log(JSON.parse(event.data));
-        callback(JSON.parse(event.data))
+        callback(JSON.parse(event.data).connectionId, qrCodeContent)
     }
     wss.onerror = (error) => console.log({ error });
     wss.onopen = () => wss.send(JSON.stringify({ action: 'connectionId' }));

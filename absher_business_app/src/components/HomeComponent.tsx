@@ -5,11 +5,16 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { establishWebSocket, requestCustomerInformation } from '../serverside'
 import './HomeComponent.css';
 
+
+const handleWebSocketResponse = (websocketId: String, qrCodeContent: String) => {
+  // Request information from customer
+  requestCustomerInformation(websocketId, qrCodeContent);
+}
+
 const Component: React.FC = () => {
 
   const history = useHistory();
   const [showLoading, setShowLoading] = useState(false);
-  const [qrContent, setQrContent] = useState("");
 
   // Run once on component start
   useEffect(() => {
@@ -19,23 +24,16 @@ const Component: React.FC = () => {
 
   const openQRScanner = async () => {
     const data = await BarcodeScanner.scan();
-    console.log(`Barcode data: ${data.text}`);
+    var qrCodeContent = data.text;
+    console.log(`Barcode data: ${qrCodeContent}`);
 
     // Establish a websocket connection 
-    if (data.text.length > 0) {
+    if (qrCodeContent.length > 0) {
       setShowLoading(true);
-      setQrContent(data.text);
 
-      establishWebSocket(handleWebSocketResponse); // Open a WebSocket with the server
+      establishWebSocket(qrCodeContent, handleWebSocketResponse); // Open a WebSocket with the server
     }
   };
-
-  const handleWebSocketResponse = (response: any) => {
-    console.log(`handleWebSocketResponse - ID: ${response.connectionId}`);
-
-    // Request information from customer
-    requestCustomerInformation(response.connectionId, qrContent);
-  }
 
 
   const openCustomerDetails = () => {
