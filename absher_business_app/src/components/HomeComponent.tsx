@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import { IonLoading, IonContent } from '@ionic/react';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import './HomeComponent.css';
+
 
 const Component: React.FC = () => {
 
   const history = useHistory();
   const [showLoading, setShowLoading] = useState(false);
+
+  const openScanner = async () => {
+    const data = await BarcodeScanner.scan();
+    console.log(`Barcode data: ${data.text}`);
+  };
+
+  // Run once on component start
+  useEffect(() => {
+    openScanner();
+  }, []);
+
 
   const openCustomerDetails = () => {
     //e.preventDefault();
@@ -23,9 +36,6 @@ const Component: React.FC = () => {
         message={'...انتظار موافقة العميل'}
         duration={3000}
       />
-      <div className="home-container">
-        <img src="assets/image/absher-home.jpeg" alt="absher-home" height="800" onClick={e => setShowLoading(true)}></img>
-      </div>
     </IonContent>
   );
 };
