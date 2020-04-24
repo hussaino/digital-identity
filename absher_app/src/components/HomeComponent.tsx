@@ -6,7 +6,7 @@ const Component: React.FC = () => {
 
   const history = useHistory();
 
-  const openQRPage = (e: any) => {
+  const goToQRPage = (e: any) => {
     e.preventDefault();
     history.push('/home/qr');
   }
@@ -14,7 +14,7 @@ const Component: React.FC = () => {
 
   return (
     <div className="home-container">
-      <img src="assets/image/absher-home.jpeg" alt="absher-home" height="800" onClick={e => openQRPage(e)}></img>
+      <img src="assets/image/absher-home.jpeg" alt="absher-home" height="800" onClick={e => goToQRPage(e)}></img>
     </div>
   );
 };
