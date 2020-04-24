@@ -68,6 +68,20 @@ customerAuth:
         method: get
         cors: true
         authorizer:
-          type: COGNITO_USER_POOLS
-          authorizerId:
-            Ref: ApiGatewayAuthorizer 
+          arn: arn:aws:cognito-idp:eu-central-1:567856465214:userpool/eu-central-1_7X7WaU9wd
+          scopes:
+            - rescource-api/read_identity
+
+customerAddress:
+  handler: src/customer.getAddress
+  layers:
+    - arn:aws:lambda:eu-central-1:567856465214:layer:NodeJs:2
+  events:
+    - http:
+        path: auth/address
+        method: get
+        cors: true
+        authorizer:
+          arn: arn:aws:cognito-idp:eu-central-1:567856465214:userpool/eu-central-1_7X7WaU9wd
+          scopes:
+            - rescource-api/read_identity

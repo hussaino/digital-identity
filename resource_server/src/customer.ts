@@ -48,8 +48,15 @@ export const remove: APIGatewayProxyHandler = async (event) => {
 };
 
 export const auth: APIGatewayProxyHandler = async (event) => {
+	console.log(event);
 	const user = event.requestContext.authorizer!.claims;
 	return successResponse(event, user);
+};
+
+export const getAddress: APIGatewayProxyHandler = async (event) => {
+	const user = event.requestContext.authorizer!.claims;
+	const address = (await getById<Customer>('CUSTOMERS', '123')).address;
+	return successResponse(event, { user, address });
 };
 
 export const requestAuthorization: APIGatewayProxyHandler = async (event) => {
