@@ -18,11 +18,12 @@ export const establishWebSocket = (qrCodeContent: String, callback: any) => {
 // ------------------- API calls -------------------
 export async function requestCustomerInformation(websocketId: String, qrContent: String) {
     console.log("requestCustomerInformation():");
-    console.log(websocketId);
-    console.log(qrContent);
+    console.log(`businessWS: ${websocketId}`);
+    console.log(`customerQR: ${qrContent}`);
+
     const apiName = 'ApiGatewayRestApi';
     const path = '/requests';
-    const myInit = {
+    const requestBody = {
         body: {
             "businessId": "456",
             "businessWS": websocketId,
@@ -30,13 +31,10 @@ export async function requestCustomerInformation(websocketId: String, qrContent:
         },
         headers: {},
     };
-    console.log("myInit");
-    console.log(myInit);
 
-
-    return await API.post(apiName, path, myInit).then((response: any) => {
+    return await API.post(apiName, path, requestBody).then((response: any) => {
         console.log("requestCustomerInformation - response:");
-        console.log(response);
+        console.log(`response: ${response}`);
     }).catch((error: any) => {
         console.log("requestCustomerInformation - error:");
         console.log(error);
