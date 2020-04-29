@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 import { useHistory } from 'react-router-dom'
+import { AppContext } from './../AppContext';
 import { IonLoading, IonContent } from '@ionic/react';
 import { establishWebSocket } from '../serverside'
 import './QRComponent.css';
 
 
 const QRComponent: React.FC = () => {
+  const myContext: any = useContext(AppContext);
   const [qrContent, setQrContent] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
@@ -14,6 +16,8 @@ const QRComponent: React.FC = () => {
   // Run once on component start
   useEffect(() => {
     establishWebSocket(handleWebSocketResponse); // Open a WebSocket with the server
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleWebSocketResponse = (response: any) => {
@@ -24,7 +28,9 @@ const QRComponent: React.FC = () => {
     }
     // authorizationRequest response
     else if (response.hasOwnProperty('requestedInfo')) {
-      goToPermissionPage(response)
+      myContext.setBusinessData(response.businessData);
+      myContext.setRequestedInfo(response.requestedInfo);
+      goToPermissionPage()
     }
 
   }
@@ -55,8 +61,8 @@ const QRComponent: React.FC = () => {
     )
   }
 
-  const goToPermissionPage = (busniessData: any) => {
-    history.push('/home/permission', { busniessData: busniessData });
+  const goToPermissionPage = () => {
+    history.push('/home/permission');
   }
 
   return (
