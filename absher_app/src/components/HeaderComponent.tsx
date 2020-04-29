@@ -9,9 +9,9 @@ const Component: React.FC = () => {
           <IonMenuButton autoHide={false} color="primary" />
         </IonButtons>
         <IonTitle>
-          <img alt="logo" height="40" float-left src="assets/image/absher-title.png" />
+          <img alt="logo" height="40" src="assets/image/absher-title.png" />
         </IonTitle>
-        <img slot="end" alt="logo" height="40" float-left src="assets/image/logo.png" />
+        <img slot="end" alt="logo" height="40" src="assets/image/logo.png" />
       </IonToolbar>
     </IonHeader>
   );
