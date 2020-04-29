@@ -7,16 +7,16 @@ Amplify.configure(awsmobile);
 export const establishWebSocket = (callback: any) => {
     var wss = new WebSocket('wss://sgyb5djk3h.execute-api.eu-central-1.amazonaws.com/dev');
     wss.onmessage = (event) => {
-        console.log(JSON.parse(event.data));
+        console.log("WebSocket.onmessage:", JSON.parse(event.data));
         callback(JSON.parse(event.data))
     }
-    wss.onerror = (error) => console.log({ error });
+    wss.onerror = (error) => console.log("WebSocket.onerror:", { error });
     wss.onopen = () => wss.send(JSON.stringify({ action: 'requestQR', id: '123' }));
 }
 
 
 // ------------------- API calls -------------------
-export async function authorizeAccess(businessData: string, approve: boolean, callback: any) {
+export async function authorizeAccess(businessData: string, approve: boolean, onSuccessCallback: any) {
     console.log("authorizeAccess():");
     var authorizeStatus = "";
     if (approve)
@@ -24,8 +24,8 @@ export async function authorizeAccess(businessData: string, approve: boolean, ca
     else
         authorizeStatus = "reject";
 
-    console.log(`authorizeAccess() - businessData: ${businessData}`);
-    console.log(`authorizeAccess() - authorizeStatus: ${authorizeStatus}`);
+    console.log("authorizeAccess() - businessData:", businessData);
+    console.log("authorizeAccess() - authorizeStatus:", authorizeStatus);
 
     const apiName = 'ApiGatewayRestApi';
     const path = '/requests';
@@ -38,16 +38,10 @@ export async function authorizeAccess(businessData: string, approve: boolean, ca
         headers: {},
     };
 
-    console.log("authorizeAccess() - requestBody: ");
-    console.log(requestBody);
-
     return await API.put(apiName, path, requestBody).then((response: any) => {
-        console.log("authorizeAccess() - response:");
-        console.log(response);
-
-        callback();
+        console.log("authorizeAccess() - response:", response);
+        onSuccessCallback();
     }).catch((error: any) => {
-        console.log("authorizeAccess() - error:");
-        console.log(error);
+        console.log("authorizeAccess() - error:", error);
     });
 }

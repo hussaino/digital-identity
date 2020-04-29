@@ -9,13 +9,10 @@ import './PermissionComponent.css';
 const PermissionComponent: React.FC = () => {
   const history = useHistory();
   const myContext: any = useContext(AppContext);
-  console.log("PermissionComponent - myContext");
-  console.log(myContext);
+  console.log("PermissionComponent - myContext:", myContext);
 
   const businessData = myContext.businessData;
   const requestedInfo = myContext.requestedInfo;
-
-
 
   const initDOM = () => {
     var requestedInfoArray: any = [];
