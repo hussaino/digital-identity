@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom'
+import { AppContext } from './../AppContext';
 import { IonLoading, IonContent } from '@ionic/react';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { establishWebSocket, requestCustomerInformation } from '../serverside'
 import './HomeComponent.css';
 
 
-const handleWebSocketResponse = (websocketId: String, qrCodeContent: String) => {
-  // Request information from customer
-  requestCustomerInformation(websocketId, qrCodeContent);
-}
-
 const Component: React.FC = () => {
-
+  const myContext: any = useContext(AppContext);
   const history = useHistory();
   const [showLoading, setShowLoading] = useState(false);
 
@@ -21,11 +17,24 @@ const Component: React.FC = () => {
     openQRScanner();
   }, []);
 
+  const handleWebSocketResponse = (response: any, qrCodeContent: String) => {
+    // New websocket response 
+    if (response.hasOwnProperty('connectionId')) {
+      // Request information from customer
+      requestCustomerInformation(response.connectionId, qrCodeContent);
+    }
+    // customerInfo response
+    else if (response.hasOwnProperty('customerInfo')) {
+      myContext.setCustomerInfo(response.customerInfo);
+      openCustomerDetails()
+    }
+
+  }
 
   const openQRScanner = async () => {
     const data = await BarcodeScanner.scan();
     var qrCodeContent = data.text;
-    console.log(`Barcode data: ${qrCodeContent}`);
+    console.log("openQRScanner() - scanned barcode:", qrCodeContent);
 
     // Establish a websocket connection 
     if (qrCodeContent.length > 0) {
@@ -37,7 +46,6 @@ const Component: React.FC = () => {
 
 
   const openCustomerDetails = () => {
-    //e.preventDefault();
     setShowLoading(false);
     history.push('/home/customer');
   }

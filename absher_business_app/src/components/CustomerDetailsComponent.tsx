@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { IonCard, IonCardHeader, IonCardTitle, IonItem, IonLabel } from '@ionic/react';
 import './CustomerDetailsComponent.css';
+import { AppContext } from './../AppContext';
 
 
 const CustomerDetailsComponent: React.FC = () => {
+  const myContext: any = useContext(AppContext);
+  console.log("CustomerDetailsComponent - myContext:", myContext);
+
 
   return (
     <div className="customer-details-container">
