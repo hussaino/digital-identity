@@ -16,17 +16,38 @@ export const establishWebSocket = (callback: any) => {
 
 
 // ------------------- API calls -------------------
-export async function getMyId() {
+export async function authorizeAccess(businessData: string, approve: boolean, callback: any) {
+    console.log("authorizeAccess():");
+    var authorizeStatus = "";
+    if (approve)
+        authorizeStatus = "approve";
+    else
+        authorizeStatus = "reject";
+
+    console.log(`authorizeAccess() - businessData: ${businessData}`);
+    console.log(`authorizeAccess() - authorizeStatus: ${authorizeStatus}`);
+
     const apiName = 'ApiGatewayRestApi';
-    const path = '/customers/123';
-    const myInit = {
-        body: {},
+    const path = '/requests';
+    const requestBody = {
+        body: {
+            "customerId": "123",
+            "businessData": businessData,
+            "status": authorizeStatus
+        },
         headers: {},
     };
 
-    return await API.get(apiName, path, myInit).then((response: any) => {
+    console.log("authorizeAccess() - requestBody: ");
+    console.log(requestBody);
+
+    return await API.put(apiName, path, requestBody).then((response: any) => {
+        console.log("authorizeAccess() - response:");
         console.log(response);
+
+        callback();
     }).catch((error: any) => {
-        console.log(error.response)
+        console.log("authorizeAccess() - error:");
+        console.log(error);
     });
 }
