@@ -1,9 +1,50 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { IonCard, IonCardHeader, IonCardTitle, IonItem, IonLabel } from '@ionic/react';
 import './CustomerDetailsComponent.css';
+import { AppContext } from './../AppContext';
 
 
 const CustomerDetailsComponent: React.FC = () => {
+  const myContext: any = useContext(AppContext);
+  console.log("CustomerDetailsComponent - myContext:", myContext);
+  const customerInfo = myContext.customerInfo;
+
+  const initDOM = () => {
+    var customerInfoArray: any = [];
+
+    const createIonItem = (elementKey: string, label: string, content: string) => {
+      var labelElement = React.createElement('h2', {}, label);
+      var contentElement = React.createElement('p', {}, content);
+      var ionLabel = React.createElement(IonLabel, { key: elementKey }, [labelElement, contentElement]);
+      var ionItem = React.createElement(IonItem, { key: elementKey }, ionLabel);
+      return ionItem;
+    }
+
+    if (customerInfo.hasOwnProperty("name")) {
+      var label = "الاسم الكامل";
+      var content = "فيصل مرزوق المري";
+      customerInfoArray.push(createIonItem("name", label, content));
+    }
+
+    if (customerInfo.hasOwnProperty("age")) {
+      var label = "العمر";
+      var content = "23";
+      customerInfoArray.push(createIonItem("age", label, content));
+    }
+
+    if (customerInfo.hasOwnProperty("marital")) {
+      var label = "الحالية الاجتماعية";
+      var content = "متزوج";
+      customerInfoArray.push(createIonItem("marital", label, content));
+    }
+
+    if (customerInfo.hasOwnProperty("job")) {
+      var label = "المسمى الوظيفي";
+      var content = "مدخل بيانات";
+      customerInfoArray.push(createIonItem("job", label, content));
+    }
+    return React.createElement('div', {}, customerInfoArray);
+  }
 
   return (
     <div className="customer-details-container">
@@ -14,46 +55,12 @@ const CustomerDetailsComponent: React.FC = () => {
           </IonCardTitle>
         </IonCardHeader>
 
-        <IonItem>
-          <IonLabel>
-            <h2>الاسم الكامل</h2>
-            <p>فيصل مرزوق المري</p>
-          </IonLabel>
+        {initDOM()}
 
-        </IonItem>
-
-        <IonItem>
-          <IonLabel>
-            <h2>العمر</h2>
-            <p>23</p>
-          </IonLabel>
-        </IonItem>
-
-        <IonItem>
-          <IonLabel>
-            <h2>الحالة الاجتماعية</h2>
-            <p>متزوج</p>
-          </IonLabel>
-        </IonItem>
-
-        <IonItem>
-          <IonLabel>
-            <h2>المسمى الوظيفي</h2>
-            <p>مدخل بيانات</p>
-          </IonLabel>
-        </IonItem>
-
-        <IonItem>
-          <IonLabel>
-            <h2>الصورة الشخصية</h2>
-          </IonLabel>
-        </IonItem>
       </IonCard>
 
     </div>
   );
-
-
 }
 
 export default CustomerDetailsComponent;

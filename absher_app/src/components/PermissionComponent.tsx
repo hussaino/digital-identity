@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { IonCard, IonCardHeader, IonCardTitle, IonItem, IonLabel, IonButton } from '@ionic/react';
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { authorizeAccess } from '../serverside'
+import { AppContext } from './../AppContext';
 import './PermissionComponent.css';
 
 
 const PermissionComponent: React.FC = () => {
   const history = useHistory();
-  const locationState: any = useLocation().state;
-  const businessData = locationState.busniessData;
-  const requestedInfo = businessData.requestedInfo;
+  const myContext: any = useContext(AppContext);
+  console.log("PermissionComponent - myContext:", myContext);
 
+  const businessData = myContext.businessData;
+  const requestedInfo = myContext.requestedInfo;
 
   const initDOM = () => {
     var requestedInfoArray: any = [];
@@ -39,7 +41,7 @@ const PermissionComponent: React.FC = () => {
   }
 
   const handleAuthorizeResponse = () => {
-    history.goBack();
+    history.push('/home');
   }
 
 
@@ -53,8 +55,8 @@ const PermissionComponent: React.FC = () => {
         {initDOM()}
 
         <IonItem className="card-buttons" >
-          <IonButton expand="block" size="default" onClick={e => authorizeAccess(businessData.businessData, true, handleAuthorizeResponse)}>السماح</IonButton>
-          <IonButton expand="block" size="default" onClick={e => authorizeAccess(businessData.businessData, false, handleAuthorizeResponse)} color="danger">عدم السماح</IonButton>
+          <IonButton expand="block" size="default" onClick={e => authorizeAccess(businessData, true, handleAuthorizeResponse)}>السماح</IonButton>
+          <IonButton expand="block" size="default" onClick={e => authorizeAccess(businessData, false, handleAuthorizeResponse)} color="danger">عدم السماح</IonButton>
         </IonItem>
       </IonCard>
 
