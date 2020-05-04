@@ -4,6 +4,8 @@ ion-content ion-toolbar {
 
 .cart-list {
   display: flex;
+  flex-flow: column;
+  align-items: center;
   justify-content: center;
 }
 

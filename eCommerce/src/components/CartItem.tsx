@@ -16,7 +16,7 @@ const Component: React.FC<CartItemProps> = ({ name, price, description, image })
 
 
   return (
-    <IonItem className="item-container" lines="none" >
+    <IonItem lines="none" >
       <div>
         <img className="item-image" src={"assets/image/" + image} alt="product" />
       </div>
