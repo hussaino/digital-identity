@@ -1,0 +1,15 @@
+ion-content ion-toolbar {
+  --background: translucent;
+}
+
+.cart-list {
+  display: flex;
+  justify-content: center;
+}
+
+.cart-title {
+  text-align: center !important;
+  padding-top: 40px;
+  font-size: 24px;
+  font-weight: bold;
+}
