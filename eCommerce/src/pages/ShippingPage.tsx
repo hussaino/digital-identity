@@ -1,6 +1,7 @@
-import { IonContent, IonPage, IonList, IonButton, IonItemDivider, IonItem, IonInput, IonLabel } from '@ionic/react';
+import { IonContent, IonPage, IonList, IonButton, IonItem, IonInput, IonLabel } from '@ionic/react';
 import React from 'react';
 import HeaderComponent from '../components/HeaderComponent';
+import { getAuth } from '../serverside'
 import './ShippingPage.css';
 
 const Shipping: React.FC = () => {
@@ -36,7 +37,7 @@ const Shipping: React.FC = () => {
         </IonList>
 
         <div className="autofill-container">
-          <IonButton className="autofill-button" color={'secondary'} >Absher Autofill</IonButton>
+          <IonButton className="autofill-button" color={'secondary'} onClick={() => getAuth()}>Absher Autofill</IonButton>
           <IonLabel>
             <p>retrieve address from Absher</p>
           </IonLabel>

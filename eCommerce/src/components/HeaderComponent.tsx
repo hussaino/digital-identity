@@ -8,7 +8,7 @@ const Component: React.FC = () => {
       <IonToolbar color="light">
         <IonTitle slot="start">
           <div className="header-container">
-            <img alt="cart" height="20" float-left src="assets/icon/shopping_cart.png" />
+            <img alt="cart" height="20" src="assets/icon/shopping_cart.png" />
             <span >eCommerce</span>
           </div>
         </IonTitle>

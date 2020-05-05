@@ -1,6 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom'
-import { IonItem, IonLabel, IonListHeader, IonButton, IonAvatar } from '@ionic/react';
+import { IonItem, IonLabel } from '@ionic/react';
 import './CartItem.css';
 
 interface CartItemProps {
@@ -12,9 +11,6 @@ interface CartItemProps {
 
 
 const Component: React.FC<CartItemProps> = ({ name, price, description, image }) => {
-  const history = useHistory();
-
-
   return (
     <IonItem lines="none" >
       <div>
