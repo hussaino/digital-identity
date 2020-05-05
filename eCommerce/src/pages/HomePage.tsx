@@ -1,10 +1,17 @@
-import { IonContent, IonPage, IonList } from '@ionic/react';
+import { IonContent, IonPage, IonList, IonButton } from '@ionic/react';
+import { useHistory } from 'react-router-dom'
 import React from 'react';
 import HeaderComponent from '../components/HeaderComponent';
 import CartItem from '../components/CartItem';
 import './HomePage.css';
 
 const Home: React.FC = () => {
+  const history = useHistory();
+
+  const onCheckoutClick = () => {
+    history.push('/shipping');
+  }
+
   return (
     <IonPage>
       <HeaderComponent />
@@ -24,6 +31,10 @@ const Home: React.FC = () => {
             image="shoes.png"
           />
         </IonList>
+        <div className="cart-checkout">
+          <p className="total-price">Total: 520SR</p>
+          <IonButton color={'primary'} onClick={() => onCheckoutClick()}>Checkout</IonButton>
+        </div>
       </IonContent>
     </IonPage>
   );

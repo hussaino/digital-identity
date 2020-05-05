@@ -2,11 +2,8 @@ ion-content ion-toolbar {
   --background: translucent;
 }
 
-.cart-list {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: center;
+ion-button {
+  --border-radius: 20px;
 }
 
 .cart-title {
@@ -14,4 +11,21 @@ ion-content ion-toolbar {
   padding-top: 40px;
   font-size: 24px;
   font-weight: bold;
+}
+
+.cart-list {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-checkout {
+  text-align: center !important;
+  font-weight: bold;
+  padding-left: 500px;
+}
+
+.total-price {
+  margin-bottom: 5px
 }
