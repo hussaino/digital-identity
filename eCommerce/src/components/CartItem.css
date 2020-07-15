@@ -1,0 +1,13 @@
+.item-title {
+  color: #5c91df;
+  font-weight: bold;
+}
+
+.item-price {
+  font-weight: bold;
+}
+
+.item-image {
+  width: 100px;
+  padding-right: 20px;
+}

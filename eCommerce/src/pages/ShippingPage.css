@@ -1,0 +1,53 @@
+ion-content ion-toolbar {
+  --background: translucent;
+}
+
+.shipping-title {
+  text-align: center !important;
+  padding-top: 40px;
+  font-size: 24px;
+  font-weight: bold;
+  padding-bottom: 20px;
+}
+
+.shipping-list-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.two-columns-item {
+  margin-left: 20px;
+  margin-right: 20px;
+  flex-basis: 150px;
+}
+
+.one-column-item {
+  margin-left: 20px;
+  margin-right: 20px;
+  flex-basis: 340px;
+}
+
+.autofill-container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+  padding-right: 130px;
+}
+
+.autofill-button {
+  width: 210px;
+}
+
+.total-price {
+  margin-bottom: 5px;
+}
+
+.shipping-payment {
+  text-align: center !important;
+  font-weight: bold;
+  padding-top: 50px;
+  padding-left: 500px;
+}
